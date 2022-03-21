@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-app.use(cors({ origin: 'https://ogbcompletionists.surge.sh' }));
-// app.use(cors({ origin: '*' }));
+// app.use(cors({ origin: 'https://ogbcompletionists.surge.sh' }));
+app.use(cors({ origin: '*' }));
 
 app.use(express.json());
 // app.use(function (req, res, next) {

@@ -1,5 +1,11 @@
 const moment = require('moment-timezone');
 
+const replaceSpecials = (original) => {
+    original = original.replace('æ', 'ae');
+    original = original.replace('œ', 'oe');
+    return original;
+}
+
 const filterUpcoming = (readings) => {
     const currentDate = moment();
 
@@ -117,9 +123,13 @@ const filterByTerms = (readings, title, author, collection) => {
 
     const sortedReadings = [];
     for (let reading of readings) {
-        if (title && reading[0].toLowerCase().indexOf(title) === -1) continue;
-        if (author && reading[2].toLowerCase().indexOf(author) === -1) continue;
-        if (collection && reading[1].toLowerCase().indexOf(collection) === -1) continue;
+        const titleCheck = replaceSpecials(reading[0].toLowerCase());
+        const authorCheck = replaceSpecials(reading[2].toLowerCase());
+        const collectionCheck = replaceSpecials(reading[1].toLowerCase());
+
+        if (title && titleCheck.indexOf(title) === -1) continue;
+        if (author && authorCheck.indexOf(author) === -1) continue;
+        if (collection && collectionCheck.indexOf(collection) === -1) continue;
 
         const scheduleDate = reading[5] ? moment.tz(`${reading[5]} 19:00`, 'America/Chicago') : null;
         const diff = scheduleDate ? scheduleDate - currentDate : null;

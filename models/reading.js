@@ -24,6 +24,11 @@ class Reading {
     static async search({ title = null, author = null, collection = null }) {
         const res = await axios.get(API_URL);
         const allReadings = res.data.values.slice(1);
+
+        if (title) title = decodeURI(title);
+        if (author) author = decodeURI(author);
+        if (collection) collection = decodeURI(collection);
+
         return filterByTerms(allReadings, title, author, collection);
     }
 }
